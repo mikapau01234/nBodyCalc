@@ -34,7 +34,7 @@ p2 = Planet(1,1,-1,0,0)
 p3 = Planet(1,-1,1,0,0)
 
 #tupple of planets
-p = (p0,p1,p2,)
+p = (p0,p1,p2,p3)
 
 #def functions
 #Calculate Fg
@@ -66,8 +66,8 @@ def velocityStep(p,G):
                 #DO STUFF HERE WITH THE OTHER PLANETS
                 FgTupple = gravityForce(x,p[y],G)
                 print(FgTupple)
-                x.velocityX = FgTupple[0]
-                x.velocityY = FgTupple[1]
+                x.velocityX = x.velocityX + FgTupple[0]
+                x.velocityY = x.velocityY + FgTupple[1]
             else:
                 print("skip planet ["+str(y)+"] Reason: same Planet")
             y=y+1
