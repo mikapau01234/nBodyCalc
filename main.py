@@ -9,32 +9,32 @@ print("importing done")
 
 #physical constants
 #Gravity constant
-G = 1.0
+G = 1
 
 #classes
 class Planet:
     def __init__(self, mass, posX, posY, velocityX, velocityY):
         self.mass = mass
         self.posX = posX
-        self.historyPosX = []
+        self.historyPosX = [posX]
         self.posY = posY
-        self.historyPosY = []
+        self.historyPosY = [posY]
         self.velocityX = velocityX
         self.velocityY = velocityY
 
 #define planets
 
 
-p0 = Planet(1,0,0,0,0)
+p0 = Planet(1,1,1,0,0)
 
-p1 = Planet(1,3,2,0,0)
+p1 = Planet(1,-1,-1,0,0)
 
-p2 = Planet(3,7,-5,0,0)
+p2 = Planet(1,1,-1,0,0)
 
-p3 = Planet(2,-2,4,0,0)
+p3 = Planet(1,-1,1,0,0)
 
 #tupple of planets
-p = (p0,p1,p2,p3)
+p = (p0,p1,p2,)
 
 #def functions
 #Calculate Fg
@@ -45,10 +45,9 @@ def gravityForce(p1,p2,G):
     r = sqrt(deltaPosX**2+deltaPosY**2)
     
     rVektor = (deltaPosX,deltaPosY)
-    rUnitVektor = (rVektor[0]/r,rVektor[1]/r)
+    rUnitVektor = (rVektor[0]/r*-1,rVektor[1]/r*-1)
 
     Fg = ((G*p1.mass*p2.mass*rUnitVektor[0])/r**2,(G*p1.mass*p2.mass*rUnitVektor[1])/r**2)
-    print(Fg)
     return(Fg)
 
 
@@ -114,8 +113,14 @@ for x in p:
     print(vars(x))
 
 
-
-plt.plot(p0.historyPosX,p0.historyPosY,"b",p1.historyPosX,p1.historyPosY,"r",p2.historyPosX,p2.historyPosY,"k",p3.historyPosX,p3.historyPosY,"m")
+#plot pos history
+plt.plot(p0.historyPosX,p0.historyPosY,"b",p1.historyPosX,p1.historyPosY,"r")
+plt.plot(p2.historyPosX,p2.historyPosY,"k")
+plt.plot(p3.historyPosX,p3.historyPosY,"m")
+#plot current pos
+plt.plot(p0.posX,p0.posY,".b",p1.posX,p1.posY,".r")
+plt.plot(p2.posX,p2.posY,".k")
+plt.plot(p3.posX,p3.posY,".k")
 
 
 plt.show()
