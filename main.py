@@ -7,9 +7,14 @@ import numpy as np
 
 print("importing done")
 
+#global system parameters
+debugMode = False
+
+
+
 #physical constants
 #Gravity constant
-G = 1
+G = 0.00000000006674
 
 #classes
 class Planet:
@@ -25,16 +30,16 @@ class Planet:
 #define planets
 
 
-p0 = Planet(1,1,1,0,0)
+p0 = Planet(1000000,0,0,0,0)
 
-p1 = Planet(1,-1,-1,0,0)
+p1 = Planet(1,5000,0,0,0.000001)
 
-p2 = Planet(1,1,-1,0,0)
+p2 = Planet(1,-5000,0,0,-0.000001)
 
-p3 = Planet(1,-1,1,0,0)
+p3 = Planet(1,-5,1,0,0)
 
 #tupple of planets
-p = (p0,p1,p2,p3)
+p = (p0,p1,p2)
 
 #def functions
 #Calculate Fg
@@ -54,37 +59,37 @@ def gravityForce(p1,p2,G):
 def velocityStep(p,G):
     #calculate velocity change based on gravity
     #do for all things in planet list
-    print("start velocityStep")
+    debugPrint("start velocityStep")
     for x in p:
         index = p.index(x)
-        print(index)
+        debugPrint(index)
         y=0
-        print("current planet: "+str(index))
+        debugPrint("current planet: "+str(index))
         #do for every other planet
         while y<len(p):
             if y!=index:
                 #DO STUFF HERE WITH THE OTHER PLANETS
                 FgTupple = gravityForce(x,p[y],G)
-                print(FgTupple)
+                debugPrint(FgTupple)
                 x.velocityX = x.velocityX + FgTupple[0]
                 x.velocityY = x.velocityY + FgTupple[1]
             else:
-                print("skip planet ["+str(y)+"] Reason: same Planet")
+                debugPrint("skip planet ["+str(y)+"] Reason: same Planet")
             y=y+1
-            print("step "+str(y))
-        print("planet "+str(index)+" done")
-    print("end velocityStep")
+            debugPrint("step "+str(y))
+        debugPrint("planet "+str(index)+" done")
+    debugPrint("end velocityStep")
     return(p)
 
 
 def positionStep(p):
     #calculate position change based on velocity
-    print("start positionStep")
+    debugPrint("start positionStep")
     #do for everything in the planet list
     for x in p:
         planetNum = p.index(x)
 
-        print("start planet ["+str(planetNum)+"]")
+        debugPrint("start planet ["+str(planetNum)+"]")
         x.posX = x.posX + x.velocityX
         x.posY = x.posY + x.velocityY
 
@@ -92,35 +97,52 @@ def positionStep(p):
         x.historyPosX.append(x.posX)
         x.historyPosY.append(x.posY)
         
-        print("posX "+str(x.posX))
-        print("posY "+str(x.posY))
-        print("end planet ["+str(p.index(x))+"]")
-    print("end positionStep")
+        debugPrint("posX "+str(x.posX))
+        debugPrint("posY "+str(x.posY))
+        debugPrint("end planet ["+str(p.index(x))+"]")
+    debugPrint("end positionStep")
     return(p)
 
 def main(tCount,p):
     y=0
     while y<tCount:
+        print(y)
+        
         p = velocityStep(p,G)
         p = positionStep(p)
         y=y+1
+
+#clear up print clutter during use
+def debugPrint(x):
+    global debugMode
+    if debugMode == True:
+        print(x)
+
+#ask for debug mode
+
+
+if input("debug mode? (y/n)") =="y":
+    debugMode = True
+
+    
+
 
 
 main(int(input("How many cycles?")),p)
 
 for x in p:
-    print("Planet ["+str(p.index(x))+"]")
-    print(vars(x))
+    debugPrint("Planet ["+str(p.index(x))+"]")
+    debugPrint(vars(x))
 
 
 #plot pos history
 plt.plot(p0.historyPosX,p0.historyPosY,"b",p1.historyPosX,p1.historyPosY,"r")
 plt.plot(p2.historyPosX,p2.historyPosY,"k")
-plt.plot(p3.historyPosX,p3.historyPosY,"m")
+#plt.plot(p3.historyPosX,p3.historyPosY,"m")
 #plot current pos
 plt.plot(p0.posX,p0.posY,".b",p1.posX,p1.posY,".r")
 plt.plot(p2.posX,p2.posY,".k")
-plt.plot(p3.posX,p3.posY,".k")
+#plt.plot(p3.posX,p3.posY,".m")
 
 
 plt.show()
