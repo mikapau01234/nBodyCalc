@@ -32,14 +32,14 @@ class Planet:
 
 p0 = Planet(1000000,0,0,0,0)
 
-p1 = Planet(1,5000,0,0,0.000001)
+p1 = Planet(1,5000,0,0,0.0001)
 
-p2 = Planet(1,-5000,0,0,-0.000001)
+p2 = Planet(1,-5000,0,0,-0.00005)
 
-p3 = Planet(1,-5,1,0,0)
+p3 = Planet(10,-2000,6000,0.001,-0.001)
 
 #tupple of planets
-p = (p0,p1,p2)
+p = (p0,p1,p2,p3)
 
 #def functions
 #Calculate Fg
@@ -135,14 +135,18 @@ for x in p:
     debugPrint(vars(x))
 
 
+
+#decide plot size
+plt.xlim(-10000, 10000)
+plt.ylim(-10000, 10000)
 #plot pos history
-plt.plot(p0.historyPosX,p0.historyPosY,"b",p1.historyPosX,p1.historyPosY,"r")
-plt.plot(p2.historyPosX,p2.historyPosY,"k")
-#plt.plot(p3.historyPosX,p3.historyPosY,"m")
+plt.plot(p0.historyPosX[::10],p0.historyPosY[::10],"b",p1.historyPosX[::10],p1.historyPosY[::10],"r")
+plt.plot(p2.historyPosX[::10],p2.historyPosY[::10],"k")
+plt.plot(p3.historyPosX[::10],p3.historyPosY[::10],"m")
 #plot current pos
 plt.plot(p0.posX,p0.posY,".b",p1.posX,p1.posY,".r")
 plt.plot(p2.posX,p2.posY,".k")
-#plt.plot(p3.posX,p3.posY,".m")
+plt.plot(p3.posX,p3.posY,".m")
 
 
 plt.show()
