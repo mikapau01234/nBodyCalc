@@ -31,9 +31,7 @@ class classPlanet:
         self.id = id
         self.mass = mass
         self.posX = posX
-        self.historyPosX = [posX]
         self.posY = posY
-        self.historyPosY = [posY]
         self.velocityX = velocityX
         self.velocityY = velocityY
 
@@ -124,9 +122,7 @@ def positionStep(p):
         x.posX = x.posX + x.velocityX
         x.posY = x.posY + x.velocityY
 
-        #add position to history
-        x.historyPosX.append(x.posX)
-        x.historyPosY.append(x.posY)
+
         
         debugPrint("posX "+str(x.posX))
         debugPrint("posY "+str(x.posY))
