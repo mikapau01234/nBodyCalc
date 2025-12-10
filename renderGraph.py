@@ -9,29 +9,47 @@ import matplotlib.pyplot as plt
 mainDir = os.path.dirname(__file__)
 posHistoryPath = os.path.join(mainDir, "posHistory")
 
-p0=[]
-p1=[]
-p2=[]
-p3=[]
+class classPlanet:
+    def __init__(self, number):
+        self.historyPosY= []
+        self.historyPosX= []
+        self.number = number
+
+p0 = classPlanet(0)
+p1 = classPlanet(1)
+p2 = classPlanet(2)
+p3 = classPlanet(3)
+
 
 
 p=(p0,p1,p2,p3)
 
 
-
 def readfromfile(file):
     with open(str(file)) as file:
-        out = file.readlines()
-        print(f"out: {out}")
+        out = file.read()
     return(out)
 
 
+for planet in p:
+    posLogPath = os.path.join(posHistoryPath, str(planet.number))
+    logs = os.listdir(posLogPath)
+    print(f"logs: {logs}")
+
+    for log in logs:
+        cordList = eval(readfromfile(os.path.join(posLogPath, log)))
+        print(f"cordList: {cordList}")
+        planet.historyPosX.append(cordList[0])
+        planet.historyPosY.append(cordList[1])
 
 for x in p:
-    index = eval("p"+str(p.index(x)))
-    for file in os.listdir(os.path.join(posHistoryPath,str(p.index(x)))):
-        index=readfromfile(os.path.join(posHistoryPath,str(p.index(x)),file))
-    print(f"planet: {index}")
-print(p0)
+    print(vars(x))
+#decide plot size
+plt.xlim(-10000, 10000)
+plt.ylim(-10000, 10000)
+#plot stuff
+plt.plot(p0.historyPosX,p0.historyPosY,"b",p1.historyPosX,p1.historyPosY,"r",p2.historyPosX,p2.historyPosY,"k",p3.historyPosX,p3.historyPosY,"m",)
 
-input("press RETURN to finish")
+
+#show plot
+plt.show()
