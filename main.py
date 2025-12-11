@@ -131,7 +131,7 @@ def positionStep(p):
     return(p)
 
 def saveStep(p,count):
-    if count % 1000 == True:
+    if count % 100000 == True:
         for planet in p:
             saveLocation = os.path.join(mainDir, posHistoryPath,str(planet.id),str(count))
             print(f"saved to: {saveLocation}")
