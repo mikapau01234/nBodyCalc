@@ -31,7 +31,9 @@ class classPlanet:
         self.id = id
         self.mass = mass
         self.posX = posX
+        self.posXHis = []
         self.posY = posY
+        self.posYHis = []
         self.velocityX = velocityX
         self.velocityY = velocityY
 
@@ -130,13 +132,23 @@ def positionStep(p):
     debugPrint("end positionStep")
     return(p)
 
+
+#this saves stuff :)
 def saveStep(p,count):
-    if count % 100000 == True:
+    if count % 100 == True:
+        for planet in p:
+            planet.posXHis.append(planet.posX)
+            planet.posYHis.append(planet.posY)
+            print(planet.posXHis)
+            print(planet.posYHis)
+    if count % 1000 == True:
         for planet in p:
             saveLocation = os.path.join(mainDir, posHistoryPath,str(planet.id),str(count))
             print(f"saved to: {saveLocation}")
-            coords = [planet.posX, planet.posY]
+            coords = [planet.posXHis, planet.posYHis]
             savetofile(repr(coords),saveLocation)
+            planet.posXHis = []
+            planet.posYHis = []
 
 
 

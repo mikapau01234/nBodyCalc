@@ -7,6 +7,7 @@ def savetofile(elements,file):
     with open(str(file)+".txt", "a") as file:
         for element in elements:
             file.write(str(element)+"\n")
+
         
 
 def readfromfile(file):
