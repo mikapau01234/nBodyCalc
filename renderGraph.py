@@ -27,7 +27,7 @@ p=(p0,p1,p2,p3)
 
 def readfromfile(file):
     with open(str(file)) as file:
-        out = file.read
+        out = file.read()
         file.close()
     return(out)
 
@@ -38,14 +38,18 @@ for planet in p:
     print(f"logs: {logs}")
 
     for log in logs:
-        cordList = readfromfile(os.path.join(posLogPath, log))
-        print(repr(cordList))
-        for cordCouple in cordList:
-            planet.historyPosX = cordCouple[0]
-            planet.historyPosY = cordCouple[1]
+        cordList = "["+readfromfile(os.path.join(posLogPath, log))+"]"
+        cordList = eval(cordList)
+        print(cordList)
+        #cordlist derzeit eine string in "[cordX,cordY],[cordX,CordY],..." dh ist cord "["  => fix: cordList zu liste machen
+        for cord in cordList:
+            planet.historyPosX.append(cord[0])
+            planet.historyPosY.append(cord[1])
 
 
-'''
+
+
+
 for x in p:
     print(vars(x))
 #decide plot size
@@ -57,4 +61,3 @@ plt.plot(p0.historyPosX,p0.historyPosY,"b",p1.historyPosX,p1.historyPosY,"r",p2.
 
 #show plot
 plt.show()
-'''

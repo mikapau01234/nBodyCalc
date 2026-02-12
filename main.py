@@ -24,7 +24,7 @@ posHistoryPath = os.path.join(mainDir, "posHistory")
 #physical constants
 #Gravity constant
 G = 0.00000000006674
-
+#G = 10
 #classes
 class classPlanet:
     def __init__(self, id, mass, posX, posY, velocityX, velocityY):
@@ -143,12 +143,13 @@ def saveStep(p,count):
             print(planet.posYHis)
     if count % 1000 == True:
         for planet in p:
-            saveLocation = os.path.join(mainDir, posHistoryPath,str(planet.id),str(count))
+            saveLocation = os.path.join(mainDir, posHistoryPath,str(planet.id),"1")
             print(f"saved to: {saveLocation}")
-            coords = [planet.posXHis, planet.posYHis]
-            savetofile(repr(coords),saveLocation)
+            coords = [planet.posX, planet.posY]
+            savetofile(repr(coords)+",",saveLocation)
             planet.posXHis = []
             planet.posYHis = []
+
 
 
 
