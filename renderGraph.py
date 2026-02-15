@@ -31,20 +31,48 @@ def readfromfile(file):
         file.close()
     return(out)
 
+posRenderMode = input("Position Render Mode (abs/rel):")
 
-for planet in p:
-    posLogPath = os.path.join(posHistoryPath, str(planet.number))
-    logs = os.listdir(posLogPath)
-    print(f"logs: {logs}")
 
-    for log in logs:
-        cordList = "["+readfromfile(os.path.join(posLogPath, log))+"]"
-        cordList = eval(cordList)
-        print(cordList)
-        #cordlist derzeit eine string in "[cordX,cordY],[cordX,CordY],..." dh ist cord "["  => fix: cordList zu liste machen
-        for cord in cordList:
-            planet.historyPosX.append(cord[0])
-            planet.historyPosY.append(cord[1])
+
+if posRenderMode == "abs":
+    for planet in p:
+        posLogPath = os.path.join(posHistoryPath, str(planet.number))
+        logs = os.listdir(posLogPath)
+        print(f"logs: {logs}")
+
+        for log in logs:
+            cordList = "["+readfromfile(os.path.join(posLogPath, log))+"]"
+            cordList = eval(cordList)
+            for cord in cordList:
+                planet.historyPosX.append(cord[0])
+                planet.historyPosY.append(cord[1])
+elif posRenderMode == "rel":
+    for planet in p:
+
+        posLogPath = os.path.join(posHistoryPath, str(planet.number))
+        logs = os.listdir(posLogPath)
+        print(f"logs: {logs}")
+
+        starPosLogPath = os.path.join(posHistoryPath, str(0))
+        starLogs = os.listdir(starPosLogPath)
+        print(f"star logs: {starLogs}")
+
+        for log in logs:
+            cordList = "[" + readfromfile(os.path.join(posLogPath, log)) + "]"
+            cordList = eval(cordList)
+
+            starCordList = "[" + readfromfile(os.path.join(starPosLogPath, starLogs[logs.index(log)])) + "]"
+            starCordList = eval(starCordList)
+
+            cordAmount = len(cordList)
+            count = 0
+            while count<cordAmount:
+                planet.historyPosX.append(starCordList[count][0]-cordList[count][0])
+                planet.historyPosY.append(starCordList[count][1]-cordList[count][1])
+                count = count+1
+
+
 
 
 

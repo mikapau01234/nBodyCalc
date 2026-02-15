@@ -24,7 +24,7 @@ posHistoryPath = os.path.join(mainDir, "posHistory")
 #physical constants
 #Gravity constant
 G = 0.00000000006674
-#G = 10
+#G = 0.0000000001
 #classes
 class classPlanet:
     def __init__(self, id, mass, posX, posY, velocityX, velocityY):
@@ -40,13 +40,13 @@ class classPlanet:
 #define planets
 
 
-p0 = classPlanet(0, 1000000, 0, 0, 0, 0)
+p0 = classPlanet(0, 1000000, 0, 10, 0, 0)
 
-p1 = classPlanet(1, 1, 5000, 0, 0, 0.0001)
+p1 = classPlanet(1, 1, 5000, 0, 0, 100)
 
-p2 = classPlanet(2, 1, -5000, 0, 0, -0.00005)
+p2 = classPlanet(2, 1, -5000, 0, 0, -100)
 
-p3 = classPlanet(3, 10, -2000, 6000, 0.001, -0.001)
+p3 = classPlanet(3, 10, -2000, 6000, 5, 5)
 
 #tupple of planets
 p = (p0,p1,p2,p3)
