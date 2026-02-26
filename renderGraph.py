@@ -14,7 +14,7 @@ class classPlanet:
         self.historyPosY= []
         self.historyPosX= []
         self.number = number
-
+'''
 p0 = classPlanet(0)
 p1 = classPlanet(1)
 p2 = classPlanet(2)
@@ -23,6 +23,12 @@ p3 = classPlanet(3)
 
 
 p=(p0,p1,p2,p3)
+'''
+x=1
+p=[]
+while x<30:
+    p.append(classPlanet(x))
+    x=x+1
 
 
 def readfromfile(file):
@@ -83,9 +89,11 @@ for x in p:
 #decide plot size
 plt.xlim(-10000, 10000)
 plt.ylim(-10000, 10000)
+'''
 #plot stuff
 plt.plot(p0.historyPosX,p0.historyPosY,"b",p1.historyPosX,p1.historyPosY,"r",p2.historyPosX,p2.historyPosY,"k",p3.historyPosX,p3.historyPosY,"m",)
-
-
+'''
+for planet in p:
+    plt.plot(planet.historyPosX,planet.historyPosY,"b")
 #show plot
 plt.show()

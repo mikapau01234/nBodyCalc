@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import shutil
+import random
 
 print("importing done")
 
@@ -39,17 +40,28 @@ class classPlanet:
 
 #define planets
 
+'''
+p0 = classPlanet(0, 10000000000, 0, 0, 0, -0.3)
 
-p0 = classPlanet(0, 1000000, 0, 10, 0, 0)
+p1 = classPlanet(1, 100, 3000, 0, 0, -0.15834)
 
-p1 = classPlanet(1, 1, 5000, 0, 0, 100)
+p2 = classPlanet(2, 10, 5500, -10000, -0.01, 0.05)
 
-p2 = classPlanet(2, 1, -5000, 0, 0, -100)
-
-p3 = classPlanet(3, 10, -2000, 6000, 5, 5)
+p3 = classPlanet(3, 100000, -50000, -2000, 0, 0)
 
 #tupple of planets
 p = (p0,p1,p2,p3)
+'''
+x=0
+p = []
+while x<30:
+    x=x+1
+
+    if random.randint(1,5) == 5:
+        p.append(classPlanet(x, random.randint(5000000, 100000000), random.randint(-50000, 50000), random.randint(-50000, 50000),
+                             random.random()*0.1-0.05, random.random()*0.1-0.05))
+
+
 
 
 #initiating file structure
@@ -135,12 +147,6 @@ def positionStep(p):
 
 #this saves stuff :)
 def saveStep(p,count):
-    if count % 100 == True:
-        for planet in p:
-            planet.posXHis.append(planet.posX)
-            planet.posYHis.append(planet.posY)
-            print(planet.posXHis)
-            print(planet.posYHis)
     if count % 1000 == True:
         for planet in p:
             saveLocation = os.path.join(mainDir, posHistoryPath,str(planet.id),"1")
