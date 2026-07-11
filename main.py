@@ -1,5 +1,5 @@
 from operator import truediv
-#blabliblub
+#blabli
 
 print("start")
 
@@ -15,6 +15,9 @@ print("importing done")
 
 #global system parameters
 debugMode = False
+posSampleSize = 250
+posRandRange = 500000
+planetsRandAmount = 5
 #file params
 mainDir = os.path.dirname(__file__)
 posHistoryPath = os.path.join(mainDir, "posHistory")
@@ -55,12 +58,12 @@ p = (p0,p1,p2,p3)
 '''
 x=0
 p = []
-while x<30:
+while x<planetsRandAmount:
     x=x+1
 
-    if random.randint(1,5) == 5:
-        p.append(classPlanet(x, random.randint(5000000, 100000000), random.randint(-50000, 50000), random.randint(-50000, 50000),
-                             random.random()*0.1-0.05, random.random()*0.1-0.05))
+
+    p.append(classPlanet(x, random.randint(5000000, 100000000), random.randint(posRandRange*-1, posRandRange), random.randint(posRandRange*-1, posRandRange),
+                         random.random()*0.1-0.05, random.random()*0.1-0.05))
 
 
 
@@ -147,15 +150,14 @@ def positionStep(p):
 
 
 #this saves stuff :)
-def saveStep(p,count):
-    if count % 1000 == True:
-        for planet in p:
-            saveLocation = os.path.join(mainDir, posHistoryPath,str(planet.id),"1")
-            print(f"saved to: {saveLocation}")
-            coords = [planet.posX, planet.posY]
-            savetofile(repr(coords)+",",saveLocation)
-            planet.posXHis = []
-            planet.posYHis = []
+def saveStep(p):
+    for planet in p:
+        saveLocation = os.path.join(mainDir, posHistoryPath,str(planet.id),"1")
+        print(f"saved to: {saveLocation}")
+        coords = [planet.posX, planet.posY]
+        savetofile(repr(coords)+",",saveLocation)
+        planet.posXHis = []
+        planet.posYHis = []
 
 
 
@@ -165,13 +167,18 @@ def saveStep(p,count):
 #MAIN IS HERE THIS DOES EVERYTHING DONT FUCK IT UP PEOPLE
 
 def main(tCount,p):
-    y=0
+    global posSampleSize
+
+    y=1
+    saveStep(p)
+
     while y<tCount:
         print(y)
-        
+
         velocityStep(p,G)
         positionStep(p)
-        saveStep(p,y)
+        if y % posSampleSize == 0:
+            saveStep(p)
         y=y+1
 
 #clear up print clutter during use
