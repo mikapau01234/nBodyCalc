@@ -172,7 +172,7 @@ def main(tCount,p):
     y=1
     saveStep(p)
 
-    while y<tCount:
+    while y<=tCount:
         print(y)
 
         velocityStep(p,G)
