@@ -184,10 +184,9 @@ def debugPrint(x):
     if debugMode == True:
         print(x)
 
-def savetofile(elements,file):
+def savetofile(element,file):
     with open(str(file)+".txt", "a") as file:
-        for element in elements:
-            file.write(str(element))
+        file.write(str(element))
 
 
 #ask for debug mode
