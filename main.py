@@ -36,9 +36,7 @@ class classPlanet:
         self.id = id
         self.mass = mass
         self.posX = posX
-        self.posXHis = []
         self.posY = posY
-        self.posYHis = []
         self.velocityX = velocityX
         self.velocityY = velocityY
 
@@ -156,8 +154,7 @@ def saveStep(p):
         print(f"saved to: {saveLocation}")
         coords = [planet.posX, planet.posY]
         savetofile(repr(coords)+",",saveLocation)
-        planet.posXHis = []
-        planet.posYHis = []
+
 
 
 
