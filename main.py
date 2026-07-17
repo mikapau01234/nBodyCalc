@@ -140,7 +140,7 @@ def positionStep(p):
         
         debugPrint("posX "+str(x.posX))
         debugPrint("posY "+str(x.posY))
-        debugPrint("end planet ["+str(p.index(x))+"]")
+        debugPrint("end planet ["+str(planetNum)+"]")
     debugPrint("end positionStep")
     return(p)
 
