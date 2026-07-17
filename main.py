@@ -42,7 +42,7 @@ class classPlanet:
 
 #define planets
 
-'''
+
 p0 = classPlanet(0, 10000000000, 0, 0, 0, -0.3)
 
 p1 = classPlanet(1, 100, 3000, 0, 0, -0.15834)
@@ -63,7 +63,7 @@ while x<planetsRandAmount:
     p.append(classPlanet(x, random.randint(5000000, 100000000), random.randint(posRandRange*-1, posRandRange), random.randint(posRandRange*-1, posRandRange),
                          random.random()*0.1-0.05, random.random()*0.1-0.05))
 
-
+'''
 
 
 #initiating file structure
@@ -105,8 +105,7 @@ def velocityStep(p,G):
     #calculate velocity change based on gravity
     #do for all things in planet list
     debugPrint("start velocityStep")
-    for x in p:
-        index = p.index(x)
+    for index,x in enumerate(p):
         debugPrint(index)
         y=0
         debugPrint("current planet: "+str(index))
