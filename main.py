@@ -130,8 +130,7 @@ def positionStep(p):
     #calculate position change based on velocity
     debugPrint("start positionStep")
     #do for everything in the planet list
-    for x in p:
-        planetNum = p.index(x)
+    for planetNum,x in enumerate(p):
 
         debugPrint("start planet ["+str(planetNum)+"]")
         x.posX = x.posX + x.velocityX
