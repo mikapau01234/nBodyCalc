@@ -10,10 +10,12 @@ import numpy as np
 import os
 import shutil
 import random
+import argparse
 
 print("importing done")
 
 #global system parameters
+parser = argparse.ArgumentParser()
 debugMode = False
 posSampleSize = 250
 posRandRange = 500000
@@ -22,7 +24,13 @@ planetsRandAmount = 5
 mainDir = os.path.dirname(__file__)
 posHistoryPath = os.path.join(mainDir, "posHistory")
 
+#arguments
+parser.add_argument("-cycleN", help="amount of cycles that are calculated, only works with values above zero", type=int)
 
+args = parser.parse_args()
+
+#argument constants
+cycleN = args.cycleN
 
 
 
@@ -195,7 +203,7 @@ if input("debug mode? (y/n)") =="y":
 
 
 
-main(int(input("How many cycles?")),p)
+main(cycleN,p)
 
 for x in p:
     debugPrint("Planet ["+str(p.index(x))+"]")
