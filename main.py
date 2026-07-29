@@ -16,9 +16,6 @@ print("importing done")
 
 #global system parameters
 parser = argparse.ArgumentParser()
-debugMode = False
-posSampleSize = 250
-posRandRange = 500000
 
 #file params
 mainDir = os.path.dirname(__file__)
@@ -27,7 +24,9 @@ posHistoryPath = os.path.join(mainDir, "posHistory")
 #arguments
 parser.add_argument("-cn","--cycleNumber", help="amount of cycles that are calculated, only works with values above zero", type=int)
 parser.add_argument("-pra","--planetsRandomAmount", help ="amount of random planets that are produced", type=int)
-parser.add_argument("-dbg","--debugMode", help="enables debug features", action="store_true")
+parser.add_argument("-dbg","--debugMode", help="enables debug features", action="store_true", default=False)
+parser.add_argument("-prr","--positionRandomRange",help="defines maximum coordinate values for random planets", type=int, default=50000)
+parser.add_argument("-pss","--positionSampleSize", help="defines every how many cycles the programm saves planet positions", type=int, default = 250)
 args = parser.parse_args()
 
 #argument constants
@@ -42,6 +41,13 @@ planetsRandAmount = args.planetsRandomAmount
 
 #debug mode
 debugMode = args.debugMode
+
+#position random range
+posRandRange = args.positionRandomRange
+
+#position Sample Size
+
+posSampleSize = args.positionSampleSize
 
 #physical constants
 #Gravity constant
