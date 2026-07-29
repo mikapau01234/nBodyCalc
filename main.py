@@ -19,20 +19,29 @@ parser = argparse.ArgumentParser()
 debugMode = False
 posSampleSize = 250
 posRandRange = 500000
-planetsRandAmount = 5
+
 #file params
 mainDir = os.path.dirname(__file__)
 posHistoryPath = os.path.join(mainDir, "posHistory")
 
 #arguments
-parser.add_argument("-cycleN", help="amount of cycles that are calculated, only works with values above zero", type=int)
-
+parser.add_argument("-cn","--cycleNumber", help="amount of cycles that are calculated, only works with values above zero", type=int)
+parser.add_argument("-pra","--planetsRandomAmount", help ="amount of random planets that are produced", type=int)
+parser.add_argument("-dbg","--debugMode", help="enables debug features", action="store_true")
 args = parser.parse_args()
 
 #argument constants
-cycleN = args.cycleN
+#amount of cycles
+if args.cycleNumber > 0:
+    cycleN = args.cycleNumber
+elif args.cycleN < 0:
+    cycleN = args.cycleNumber * -1
 
+#amount or random planets
+planetsRandAmount = args.planetsRandomAmount
 
+#debug mode
+debugMode = args.debugMode
 
 #physical constants
 #Gravity constant
@@ -198,8 +207,6 @@ def savetofile(element,file):
 #ask for debug mode
 
 
-if input("debug mode? (y/n)") =="y":
-    debugMode = True
 
 
 
