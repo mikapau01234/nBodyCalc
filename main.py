@@ -1,9 +1,9 @@
 from operator import truediv
 #blabli
 
-print("start")
 
-print("importing thingos")
+
+
 from math import *
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,42 +12,8 @@ import shutil
 import random
 import argparse
 
-print("importing done")
 
-#global system parameters
-parser = argparse.ArgumentParser()
 
-#file params
-mainDir = os.path.dirname(__file__)
-posHistoryPath = os.path.join(mainDir, "posHistory")
-
-#arguments
-parser.add_argument("-cn","--cycleNumber", help="amount of cycles that are calculated, only works with values above zero", type=int)
-parser.add_argument("-pra","--planetsRandomAmount", help ="amount of random planets that are produced", type=int)
-parser.add_argument("-dbg","--debugMode", help="enables debug features", action="store_true", default=False)
-parser.add_argument("-prr","--positionRandomRange",help="defines maximum coordinate values for random planets", type=int, default=50000)
-parser.add_argument("-pss","--positionSampleSize", help="defines every how many cycles the programm saves planet positions", type=int, default = 250)
-args = parser.parse_args()
-
-#argument constants
-#amount of cycles
-if args.cycleNumber > 0:
-    cycleN = args.cycleNumber
-elif args.cycleN < 0:
-    cycleN = args.cycleNumber * -1
-
-#amount or random planets
-planetsRandAmount = args.planetsRandomAmount
-
-#debug mode
-debugMode = args.debugMode
-
-#position random range
-posRandRange = args.positionRandomRange
-
-#position Sample Size
-
-posSampleSize = args.positionSampleSize
 
 #physical constants
 #Gravity constant
@@ -62,47 +28,6 @@ class classPlanet:
         self.posY = posY
         self.velocityX = velocityX
         self.velocityY = velocityY
-
-#define planets
-
-
-p0 = classPlanet(0, 10000000000, 0, 0, 0, -0.3)
-
-p1 = classPlanet(1, 100, 3000, 0, 0, -0.15834)
-
-p2 = classPlanet(2, 10, 5500, -10000, -0.01, 0.05)
-
-p3 = classPlanet(3, 100000, -50000, -2000, 0, 0)
-
-#tupple of planets
-p = (p0,p1,p2,p3)
-'''
-x=0
-p = []
-while x<planetsRandAmount:
-    x=x+1
-
-
-    p.append(classPlanet(x, random.randint(5000000, 100000000), random.randint(posRandRange*-1, posRandRange), random.randint(posRandRange*-1, posRandRange),
-                         random.random()*0.1-0.05, random.random()*0.1-0.05))
-
-'''
-
-
-#initiating file structure
-print("initiating file structure")
-
-if os.path.exists(posHistoryPath) == False:
-    os.mkdir(posHistoryPath)
-
-for planet in p:
-    planetPath = os.path.join(mainDir, posHistoryPath, str(planet.id))
-    if os.path.exists(planetPath) == False:
-        os.mkdir(planetPath)
-    else:
-        shutil.rmtree(planetPath)
-        os.mkdir(planetPath)
-
 
 
 
@@ -184,8 +109,7 @@ def saveStep(p):
 
 #MAIN IS HERE THIS DOES EVERYTHING DONT FUCK IT UP PEOPLE
 
-def main(tCount,p):
-    global posSampleSize
+def mainLoop(tCount,p):
 
     y=1
     saveStep(p)
@@ -195,34 +119,103 @@ def main(tCount,p):
 
         velocityStep(p,G)
         positionStep(p)
-        if y % posSampleSize == 0:
+        if y % args.positionSampleSize == 0:
             saveStep(p)
         y=y+1
 
 #clear up print clutter during use
 def debugPrint(x):
-    global debugMode
-    if debugMode == True:
+    if args.debugMode == True:
         print(x)
 
 def savetofile(element,file):
     with open(str(file)+".txt", "a") as file:
         file.write(str(element))
 
+#logic functions
+def isPositive(value):
+    intValue = int(value)
+    if int(intValue) <=0:
+        raise argparse.ArgumentTypeError(f"{value} is an invalid int value")
+    return int(intValue)
 
-#ask for debug mode
+def main():
+    global mainDir, posHistoryPath, args
+
+    print("start")
+
+    # global system parameters
+    parser = argparse.ArgumentParser()
+
+    # file params
+    mainDir = os.path.dirname(__file__)
+
+    posHistoryPath = os.path.join(mainDir, "posHistory")
+
+    # arguments
+    parser.add_argument("-cn", "--cycleNumber",
+                        help="amount of cycles that are calculated, only works with values above zero", type=isPositive)
+    parser.add_argument("-pra", "--planetsRandomAmount", help="amount of random planets that are produced", type=isPositive)
+    parser.add_argument("-dbg", "--debugMode", help="enables debug features", action="store_true", default=False)
+    parser.add_argument("-prr", "--positionRandomRange", help="defines maximum coordinate values for random planets",
+                        type=isPositive, default=50000)
+    parser.add_argument("-pss", "--positionSampleSize",
+                        help="defines every how many cycles the programm saves planet positions", type=isPositive, default=250)
+    args = parser.parse_args()
+
+    # argument constants
+    # amount of cycles
+    if args.cycleNumber > 0:
+        cycleNumber = args.cycleNumber
+    elif args.cycleNumber < 0:
+        cycleNumber = args.cycleNumber * -1
 
 
+    # define planets
+
+    p0 = classPlanet(0, 10000000000, 0, 0, 0, -0.3)
+
+    p1 = classPlanet(1, 100, 3000, 0, 0, -0.15834)
+
+    p2 = classPlanet(2, 10, 5500, -10000, -0.01, 0.05)
+
+    p3 = classPlanet(3, 100000, -50000, -2000, 0, 0)
+
+    # tupple of planets
+    p = (p0, p1, p2, p3)
+    '''
+    x=0
+    p = []
+    while x<args.planetsRandomAmount:
+        x=x+1
 
 
+        p.append(classPlanet(x, random.randint(5000000, 100000000), random.randint(args.positionRandomRange*-1, args.positionRandomRange), random.randint(args.positionRandomRange*-1, args.positionRandomRange),
+                             random.random()*0.1-0.05, random.random()*0.1-0.05))
 
-main(cycleN,p)
+    '''
 
-for x in p:
-    debugPrint("Planet ["+str(p.index(x))+"]")
-    debugPrint(vars(x))
+    # initiating file structure
+    print("initiating file structure")
 
+    if os.path.exists(posHistoryPath) == False:
+        os.mkdir(posHistoryPath)
 
+    for planet in p:
+        planetPath = os.path.join(mainDir, posHistoryPath, str(planet.id))
+        if os.path.exists(planetPath) == False:
+            os.mkdir(planetPath)
+        else:
+            shutil.rmtree(planetPath)
+            os.mkdir(planetPath)
 
-input('Press RETURN to finish')
+    mainLoop(cycleNumber,p)
 
+    for x in p:
+        debugPrint("Planet ["+str(p.index(x))+"]")
+        debugPrint(vars(x))
+
+    input('Press RETURN to finish')
+
+if __name__ == "__main__":
+    main()
