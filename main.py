@@ -5,12 +5,15 @@ from operator import truediv
 
 
 from math import *
+from pickle import GLOBAL
+
 import matplotlib.pyplot as plt
 import numpy as np
 import os
 import shutil
 import random
 import argparse
+import yaml
 
 
 
@@ -135,12 +138,12 @@ def savetofile(element,file):
 #logic functions
 def isPositive(value):
     intValue = int(value)
-    if int(intValue) <=0:
+    if intValue <=0:
         raise argparse.ArgumentTypeError(f"{value} is an invalid int value")
-    return int(intValue)
+    return intValue
 
 def main():
-    global mainDir, posHistoryPath, args
+    global mainDir, posHistoryPath, args, G
 
     print("start")
 
@@ -153,15 +156,15 @@ def main():
     posHistoryPath = os.path.join(mainDir, "posHistory")
 
     # arguments
-    parser.add_argument("-cn", "--cycleNumber",
-                        help="amount of cycles that are calculated, only works with values above zero", type=isPositive)
-    parser.add_argument("-pra", "--planetsRandomAmount", help="amount of random planets that are produced", type=isPositive)
+    parser.add_argument("-cn", "--cycleNumber", help="amount of cycles that are calculated, only works with values above zero", type=isPositive)
+    parser.add_argument("-pra", "--planetsRandomAmount", help="amount of random planets that are produced", type=isPositive,default=0)
     parser.add_argument("-dbg", "--debugMode", help="enables debug features", action="store_true", default=False)
-    parser.add_argument("-prr", "--positionRandomRange", help="defines maximum coordinate values for random planets",
-                        type=isPositive, default=50000)
-    parser.add_argument("-pss", "--positionSampleSize",
-                        help="defines every how many cycles the programm saves planet positions", type=isPositive, default=250)
+    parser.add_argument("-prr", "--positionRandomRange", help="defines maximum coordinate values for random planets", type=isPositive, default=50000)
+    parser.add_argument("-pss", "--positionSampleSize", help="defines every how many cycles the programm saves planet positions", type=isPositive, default=250)
+    parser.add_argument("-yamlcfg","--yamlConfig", help="file path for config yaml file", type=str, default="config.yaml")
     args = parser.parse_args()
+
+
 
     # argument constants
     # amount of cycles
@@ -170,7 +173,32 @@ def main():
     elif args.cycleNumber < 0:
         cycleNumber = args.cycleNumber * -1
 
+    debugPrint("reading yaml file")
+    with open(args.yamlConfig, "r") as file:
+        loadedYaml = yaml.safe_load(file)
+    debugPrint(f"loaded yaml file:{loadedYaml}")
+    #set G
+    G = loadedYaml["constants"]["G"]
 
+    #convert yaml format to usable format
+    p=[]
+    if args.planetsRandomAmount == 0:
+        for planet in loadedYaml["planets"]:
+            curPlanet=classPlanet(planet["id"],planet["mass"],planet["posX"],planet["posY"],planet["velocityX"],planet["velocityY"])
+            debugPrint(f"current planet (YAML=>usable): {vars(curPlanet)}")
+            p.append(curPlanet)
+    else:
+        x = 0
+        while x < args.planetsRandomAmount:
+            x = x + 1
+
+            p.append(classPlanet(x, random.randint(5000000, 100000000),
+                                 random.randint(args.positionRandomRange * -1, args.positionRandomRange),
+                                 random.randint(args.positionRandomRange * -1, args.positionRandomRange),
+                                 random.random() * 0.1 - 0.05, random.random() * 0.1 - 0.05))
+
+
+    '''
     # define planets
 
     p0 = classPlanet(0, 10000000000, 0, 0, 0, -0.3)
@@ -180,18 +208,11 @@ def main():
     p2 = classPlanet(2, 10, 5500, -10000, -0.01, 0.05)
 
     p3 = classPlanet(3, 100000, -50000, -2000, 0, 0)
-
-    # tupple of planets
-    p = (p0, p1, p2, p3)
     '''
-    x=0
-    p = []
-    while x<args.planetsRandomAmount:
-        x=x+1
-
-
-        p.append(classPlanet(x, random.randint(5000000, 100000000), random.randint(args.positionRandomRange*-1, args.positionRandomRange), random.randint(args.positionRandomRange*-1, args.positionRandomRange),
-                             random.random()*0.1-0.05, random.random()*0.1-0.05))
+    # tupple of planets
+    #p = (p0, p1, p2, p3)
+    '''
+    
 
     '''
 
