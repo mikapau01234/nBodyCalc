@@ -1,0 +1,19 @@
+constants:
+  G: 0.00000000006674
+planets:
+  -
+    id: 0
+    name: "planet1"
+    mass: 50000
+    posX: 100
+    posY: 100
+    velocityX: 5
+    velocityY: -5
+  -
+    id: 1
+    name: "planet2"
+    mass: 50000
+    posX: -100
+    posY: -100
+    velocityX: 5
+    velocityY: 5
