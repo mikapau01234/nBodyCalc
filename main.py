@@ -14,6 +14,7 @@ import shutil
 import random
 import argparse
 import yaml
+import csv
 
 
 
@@ -96,13 +97,21 @@ def positionStep(p):
     return(p)
 
 
+
+
 #this saves stuff :)
-def saveStep(p):
+def saveStep(p,cycleNr):
     for planet in p:
         saveLocation = os.path.join(mainDir, posHistoryPath,str(planet.id),"1")
         print(f"saved to: {saveLocation}")
         coords = [planet.posX, planet.posY]
         savetofile(repr(coords)+",",saveLocation)
+    with open("output.csv",mode="a",newline="") as output:
+        csvWriter = csv.writer(output, delimiter=";",quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writeList=[cycleNr]
+        for planet in p:
+            writeList += [planet.posX, planet.posY, planet.velocityX, planet.velocityY]
+        csvWriter.writerow(writeList)
 
 
 
@@ -114,17 +123,17 @@ def saveStep(p):
 
 def mainLoop(tCount,p):
 
-    y=1
-    saveStep(p)
+    cycleNr=1
+    saveStep(p,cycleNr)
 
-    while y<=tCount:
-        print(y)
+    while cycleNr<=tCount:
+        print(cycleNr)
 
         velocityStep(p,G)
         positionStep(p)
-        if y % args.positionSampleSize == 0:
-            saveStep(p)
-        y=y+1
+        if cycleNr % args.positionSampleSize == 0:
+            saveStep(p,cycleNr)
+        cycleNr += 1
 
 #clear up print clutter during use
 def debugPrint(x):
@@ -230,6 +239,16 @@ def main():
             shutil.rmtree(planetPath)
             os.mkdir(planetPath)
 
+    with open("output.csv",mode="w",newline="") as output:
+        csvWriter = csv.writer(output, delimiter=";",quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writeList = ["CycleNr"]
+        counter = 0
+        while counter < len(p):
+            counter += 1
+            writeList += [f"p{counter}posX", f"p{counter}posY", f"p{counter}velocityX", f"p{counter}velocityY"]
+        csvWriter.writerow(writeList)
+
+    #main Loop
     mainLoop(cycleNumber,p)
 
     for x in p:
