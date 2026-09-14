@@ -1,19 +1,32 @@
+
 constants:
   G: 0.00000000006674
+
 planets:
   -
     id: 0
-    name: "planet1"
-    mass: 50000
-    posX: 100
-    posY: 100
-    velocityX: 5
-    velocityY: -5
+    name: "sun"
+    mass: 1989000000000000000000000000000000
+    posX: 0
+    posY: 0
+    velocityX: 0
+    velocityY: 0
+
   -
     id: 1
-    name: "planet2"
-    mass: 50000
-    posX: -100
-    posY: -100
-    velocityX: 5
-    velocityY: 5
+    name: "earth"
+    mass: 5972000000000000000000000
+    posX: 149600000000
+    posY: 0
+    velocityX: 0
+    velocityY: 29780
+
+  -
+    id: 2
+    name: "mars"
+    mass: 641700000000000000000000
+    posX: -227940000000
+    posY: 0
+    velocityX: 0
+    velocityY: -24070
+
