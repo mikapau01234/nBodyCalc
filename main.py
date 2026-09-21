@@ -67,8 +67,8 @@ def velocityStep(p,G):
                 #DO STUFF HERE WITH THE OTHER PLANETS
                 FgTupple = gravityForce(x,p[y],G)
                 debugPrint(FgTupple)
-                x.velocityX = x.velocityX + FgTupple[0]/p[y].mass
-                x.velocityY = x.velocityY + FgTupple[1]/p[y].mass
+                x.velocityX += FgTupple[0]/x.mass
+                x.velocityY += FgTupple[1]/x.mass
             else:
                 debugPrint("skip planet ["+str(y)+"] Reason: same Planet")
             y=y+1
@@ -165,7 +165,7 @@ def main():
     posHistoryPath = os.path.join(mainDir, "posHistory")
 
     # arguments
-    parser.add_argument("-cn", "--cycleNumber", help="amount of cycles that are calculated, only works with values above zero", type=isPositive)
+    parser.add_argument("-cn", "--cycleNumber", help="amount of cycles that are calculated, only works with values above zero", type=isPositive, default=50000)
     parser.add_argument("-pra", "--planetsRandomAmount", help="amount of random planets that are produced", type=isPositive,default=0)
     parser.add_argument("-dbg", "--debugMode", help="enables debug features", action="store_true", default=False)
     parser.add_argument("-prr", "--positionRandomRange", help="defines maximum coordinate values for random planets", type=isPositive, default=50000)
@@ -176,11 +176,6 @@ def main():
 
 
     # argument constants
-    # amount of cycles
-    if args.cycleNumber > 0:
-        cycleNumber = args.cycleNumber
-    elif args.cycleNumber < 0:
-        cycleNumber = args.cycleNumber * -1
 
     debugPrint("reading yaml file")
     with open(args.yamlConfig, "r") as file:
