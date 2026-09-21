@@ -59,8 +59,8 @@ for planet in planetList:
 
 for colour in matplotlib.colors.BASE_COLORS:
     colourList.append(colour)
-
+colourList.remove("w")
 for colourNr, planet in enumerate(planetList):
-    plt.plot(planet.historyPosX,planet.historyPosY,colourList[colourNr])
+    plt.plot(planet.historyPosX,planet.historyPosY,colourList[colourNr],marker=".", markevery=[-1])
 #show plot
 plt.show()
