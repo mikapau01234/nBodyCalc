@@ -67,8 +67,8 @@ def velocityStep(p,G):
                 #DO STUFF HERE WITH THE OTHER PLANETS
                 FgTupple = gravityForce(x,p[y],G)
                 debugPrint(FgTupple)
-                x.velocityX = x.velocityX + FgTupple[0]
-                x.velocityY = x.velocityY + FgTupple[1]
+                x.velocityX = x.velocityX + FgTupple[0]/p[y].mass
+                x.velocityY = x.velocityY + FgTupple[1]/p[y].mass
             else:
                 debugPrint("skip planet ["+str(y)+"] Reason: same Planet")
             y=y+1
@@ -254,8 +254,6 @@ def main():
     for x in p:
         debugPrint("Planet ["+str(p.index(x))+"]")
         debugPrint(vars(x))
-
-    input('Press RETURN to finish')
 
 if __name__ == "__main__":
     main()
