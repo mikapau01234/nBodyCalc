@@ -244,7 +244,7 @@ def main():
         csvWriter.writerow(writeList)
 
     #main Loop
-    mainLoop(cycleNumber,p)
+    mainLoop(args.cycleNumber,p)
 
     for x in p:
         debugPrint("Planet ["+str(p.index(x))+"]")
