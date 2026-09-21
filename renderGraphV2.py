@@ -1,4 +1,4 @@
-
+import matplotlib.colors
 
 #importing stuffs
 print("importing thingies")
@@ -11,6 +11,7 @@ mainDir = os.path.dirname(__file__)
 
 
 cycleList=[]
+colourList=[]
 
 class classPlanet:
     def __init__(self, number):
@@ -56,7 +57,10 @@ for planet in planetList:
 #plt.xlim(-500000, 500000)
 #plt.ylim(-500000, 500000)
 
-for planet in planetList:
-    plt.plot(planet.historyPosX,planet.historyPosY,"b")
+for colour in matplotlib.colors.BASE_COLORS:
+    colourList.append(colour)
+
+for colourNr, planet in enumerate(planetList):
+    plt.plot(planet.historyPosX,planet.historyPosY,colourList[colourNr])
 #show plot
 plt.show()
